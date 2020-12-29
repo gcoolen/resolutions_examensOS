@@ -2,7 +2,6 @@
 # Examen d'OS Janvier 20202016 (Q1 - bash)
 # main.sh
 
-
 #first creates some files in directory dir and in subdirectory dir/sub_dir with "generate.sh"
 
 
@@ -43,6 +42,7 @@ parcour() {
 
 main () {
   while IFS= read line
+  #faux, ne check pas les sous-dossiers (pas récursif)
   do
     if [ -d $line ]; then
       for f in $line/*; do
