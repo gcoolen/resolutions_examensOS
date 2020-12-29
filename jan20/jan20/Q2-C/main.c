@@ -35,12 +35,12 @@ int main(){
         int counter = 0;
         while (1){
             read(fd[R], term, 16);
-            int i = atoi(term);
-            counter += i;
-            printf("%d\n", counter);
             if(strcmp(term, "x")==0) {
                 exit(0);
             }
+            int i = atoi(term);
+            counter += i;
+            printf("%d\n", counter);
         }
     }
 }
