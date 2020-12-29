@@ -36,15 +36,11 @@ int main() {
             pids[j] = fork();
             if (pids[j] == 0) {
                 close(fd[R]);
-                int fd2[2];                     // nouveau descripteur pour chaque process, pas très optimal je pense
-                pipe(fd2);
-                close(fd2[R]);
-                dup2(fd[W], fd2[W]);    //écrit dans fd
                 int res = calcul_case(mat1, mat2, n_2, i, j);
                 int msg[2] = {j, res};
                 // transmettre l'indice de colonne car pas sûr que chaque résultat arrive dans l'ordre
-                if (write(fd2[W], &msg, sizeof(msg)) == -1) printf("writing error\n");
-                close(fd2[W]);
+                if (write(fd[W], &msg, sizeof(msg)) == -1) printf("writing error\n");
+                close(fd[W]);
                 exit(0);
             }
         }
