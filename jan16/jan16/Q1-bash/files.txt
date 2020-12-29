@@ -1,0 +1,7 @@
+dir/a.synctex.gz
+dir/b.log
+dir/c.aux
+dir/d.tex
+dir/e.tex
+dir/subdir/f.log
+dir/subdir/d.pdf

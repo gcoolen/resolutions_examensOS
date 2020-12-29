@@ -1,0 +1,9 @@
+dir/a.jpg
+dir/b.mp4
+dir/c.mp3
+dir/d.wav
+dir/e.jpg
+dir/f.wav
+dir/g.mp4
+dir/sub_dir/h.jpg
+dir/sub_dir/i.mp3
