@@ -42,7 +42,6 @@ check_for_pdfs() {
     done
 }
 
-./generate.sh
 sleep 5 #check files
 delete_files
 sleep 10 #check deletes
