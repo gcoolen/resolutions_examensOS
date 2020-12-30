@@ -36,8 +36,15 @@ check_for_pdfs() {
                 echo "${name_w_pdf} créé"
             fi
         else
-            #check pdf version with if [ $found -ot $f ] (...)
-            echo "${name_w_pdf} à jour"
+            if [ "$found" -ot "$f" ]; then
+            rm $found
+                v=$(pdflatex $f)
+                if [ $? = 0 ]; then
+                    echo "${name_w_pdf} mis à jour"
+                fi
+            else
+                echo "${name_w_pdf} à jour"
+            fi
         fi
     done
 }
