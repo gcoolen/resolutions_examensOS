@@ -36,7 +36,7 @@ check_for_pdfs() {
                 echo "${name_w_pdf} créé"
             fi
         else
-            #check with if [ $found -ot $f ] (...)
+            #check pdf version with if [ $found -ot $f ] (...)
             echo "${name_w_pdf} à jour"
         fi
     done
