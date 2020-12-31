@@ -1,5 +1,8 @@
 # resolutions_examensOS
 
+Solutions des examens d'OS
 
-Mes solutions d'examens d'OS => pas toujours optimales mais je pense correctes ¯\\_(ツ)_/¯ 
-Have fun
+
+# Authors:
+- Alexis Dumélié
+- Gregory Coolen
