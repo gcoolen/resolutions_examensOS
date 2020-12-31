@@ -4,5 +4,5 @@ Solutions des examens d'OS
 
 
 # Authors:
-- Alexis Dumélié
+- Alexis Dumelié
 - Gregory Coolen
