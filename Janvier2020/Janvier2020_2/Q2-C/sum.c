@@ -5,27 +5,31 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#define BASE 10
+#define SIZE 64	// TODO a better way rather than a magic number ?
+
 void doChild(int fd, const char endChar){
-	char input[1];
+	char input[SIZE];
 
 	// Get int from input, hypothesised no format errors
 	// Stops when endChar is given
 	do{
 		printf("Enter number>");
-		if (!fgets(input, sizeof(int), stdin)){
+		if (!fgets(input, SIZE, stdin)){
 			perror("Error reading input !");exit(EXIT_FAILURE);
 		}
-		write(fd, input, sizeof(char));
+		write(fd, input, SIZE);
 	}while (*input != endChar);
 
 }
 
 void doParent(int fd, const char endChar){
-	char buffer[1];
+	char buffer[SIZE];
+
 	int sum = 0;
 	while (*buffer != endChar){
-		read(fd, buffer, sizeof(char));	
-		sum += atoi(buffer);
+		read(fd, buffer, SIZE);	
+		sum += strtol(buffer, NULL, BASE);
 		printf("Sum is: %d\n", sum);
 	}
 }
