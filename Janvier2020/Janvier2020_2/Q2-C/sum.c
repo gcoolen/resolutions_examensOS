@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 void doChild(int fd, const char endChar){
-	char input[sizeof(int)];
+	char input[1];
 
 	// Get int from input, hypothesised no format errors
 	// Stops when endChar is given
@@ -21,7 +21,7 @@ void doChild(int fd, const char endChar){
 }
 
 void doParent(int fd, const char endChar){
-	char buffer[sizeof(char)];
+	char buffer[1];
 	int sum = 0;
 	while (*buffer != endChar){
 		read(fd, buffer, sizeof(char));	
