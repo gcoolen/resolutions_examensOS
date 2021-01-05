@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+# Author: Alexis Dumelié
+
+# Arg1: projectDir
+# Arg2: projetFileExt
+# Arg>2: flags to search for
+#----------------------------------------------------------------------
+# Create in projectDir/flaglist_output/ a file for each flag
+#	If dir exists: move to projectDir/flaglist_output/archive/
+# File will have: /abs/path/to/file -> line content after flag
+# File will be named: timestamp_flagname (timestamp is identical for a run)
+#	If file exists: move to projectDir/flaglist_output/archive/ 
+# Log all errors and conflicts into projectDir/flaglist_output/flaglist.log
+#----------------------------------------------------------------------
+#----------------------------------------------------------------------
+function errorExit {
+	echo "$1" >> /dev/stderr
+	exit 1
+}
+
+function logError {
+	echo "$1" >> "$log_file"
+}
+
+function checkExistingFiles {
+	for flag in "${flags[@]}";do
+		local filename="${output_directory}/$(date +%s)_${flag}"
+		if [ -f "$filename" ];then		# TODO bug: incorrectly identifying files as duplicates
+			logError "Moving previous file to archive: ${filename}"
+			local archive_dir="${output_directory}/archive"
+			mkdir -p "$archive_dir" 
+			mv "$filename" "$archive_dir" 2> /dev/null
+			if [ $? -ne 0 ];then
+				logerror "Couldn't move existing result file"
+			fi
+		fi
+	done
+}
+
+function handleFile {
+	local file="$1"
+	if [[ "${file##*.}" != "$extension" ]];then
+		return
+	fi # Preemptive return if extension does not match
+	checkExistingFiles
+	for flag in "${flags[@]}";do
+		local filename="${output_directory}/$(date +%s)_${flag}"
+
+		local result=$(grep -H "$flag" "$file")
+		local path="${result%%:*}"
+		result="${result##*:}"				# Strip to keep result
+		if [ -n "$path" ];then
+			echo "${path} -> ${result}" > "$filename"
+		fi
+	done
+
+}
+
+#----------------------------------------------------------------------
+# Parameter checking
+if [ $# -lt 3 ];then errorExit "Cannot start script with less than 3 arguments !";fi
+if [ ! -d $1 ];then errorExit "First argument needs to be project directory !";fi
+
+start_directory="${PWD}/${1}";	# For abs paths
+extension="$2"
+shift 2
+flags=($@)
+
+output_directory="${start_directory}/flaglist_output"
+log_file="${output_directory}/flaglist.log"
+
+mkdir -p "$output_directory"
+
+# Main loop
+to_visit=("${start_directory}")
+while [ ${#to_visit[@]} -gt 0 ];do
+	current_dir=${to_visit[0]}
+	to_visit=(${to_visit[@]:1})	# Pop
+	
+	for file in "${current_dir}"/*;do
+		if [ -d "$file" ];then
+			to_visit+=("$file")
+		else
+			handleFile "$file"
+		fi
+	done
+done
