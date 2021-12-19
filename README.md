@@ -6,3 +6,4 @@ Solutions des examens d'OS
 # Authors:
 - Alexis Dumelié
 - Gregory Coolen
+- Attilio Discepoli
